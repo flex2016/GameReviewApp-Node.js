@@ -1,0 +1,23 @@
+{
+  "name": "gamereview",
+  "version": "1.0.0",
+  "description": "Welcome To PC Games Review App. Where you can review share and commen ton your favorite games with your friends.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flex2016/GameReviewApp-Node.js.git"
+  },
+  "author": "Taras Kurilo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flex2016/GameReviewApp-Node.js/issues"
+  },
+  "homepage": "https://github.com/flex2016/GameReviewApp-Node.js#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  }
+}
