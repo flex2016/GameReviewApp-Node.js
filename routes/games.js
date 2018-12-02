@@ -1,28 +1,32 @@
 var express = require("express");
 var router  = express.Router();
-var game = require("../models/game");
+var Game = require("../models/game");
 
 //INDEX - show all games
 router.get("/", function(req, res){
     // Get all games from DB
-    game.find({}, function(err, allgames){
+    Game.find({}, function(err, allGames){
        if(err){
            console.log(err);
        } else {
-          res.render("games/index",{games:allgames});
+          res.render("games/index",{games:allGames});
        }
     });
 });
 
 //CREATE - add new game to DB
-router.post("/", function(req, res){
+router.post("/", isLoggedIn, function(req, res){
     // get data from form and add to games array
     var name = req.body.name;
     var image = req.body.image;
     var desc = req.body.description;
-    var newgame = {name: name, image: image, description: desc}
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    var newGame = {name: name, image: image, description: desc, author:author}
     // Create a new game and save to DB
-    game.create(newgame, function(err, newlyCreated){
+    Game.create(newGame, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else {
@@ -33,23 +37,63 @@ router.post("/", function(req, res){
 });
 
 //NEW - show form to create new game
-router.get("/new", function(req, res){
+router.get("/new", isLoggedIn, function(req, res){
    res.render("games/new"); 
 });
 
 // SHOW - shows more info about one game
 router.get("/:id", function(req, res){
     //find the game with provided ID
-    game.findById(req.params.id).populate("comments").exec(function(err, foundgame){
+    Game.findById(req.params.id).populate("comments").exec(function(err, foundGame){
         if(err){
             console.log(err);
         } else {
-            console.log(foundgame)
+            console.log(foundGame)
             //render show template with that game
-            res.render("games/show", {game: foundgame});
+            res.render("games/show", {game: foundGame});
         }
     });
 });
+
+// EDIT GAME ROUTE
+router.get("/:id/edit", function(req, res){
+    Game.findById(req.params.id, function(err, foundGame){
+        res.render("games/edit", {game: foundGame});
+    });
+});
+
+// UPDATE GAME ROUTE
+router.put("/:id", function(req, res){
+    // find and update the correct game
+    Game.findByIdAndUpdate(req.params.id, req.body.game, function(err, updatedGame){
+       if(err){
+           res.redirect("/games");
+       } else {
+           //redirect somewhere(show page)
+           res.redirect("/games/" + req.params.id);
+       }
+    });
+});
+
+// DESTROY GAME ROUTE
+router.delete("/:id", function(req, res){
+   Game.findByIdAndRemove(req.params.id, function(err){
+      if(err){
+          res.redirect("/games");
+      } else {
+          res.redirect("/games");
+      }
+   });
+});
+
+
+//middleware
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
 
