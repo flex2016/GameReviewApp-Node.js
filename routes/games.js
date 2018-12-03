@@ -71,9 +71,11 @@ router.put("/:id", middleware.checkGameOwnership, function(req, res){
     // find and update the correct game
     Game.findByIdAndUpdate(req.params.id, req.body.game, function(err, updatedGame){
        if(err){
+           req.flash("eroor", "Something Went Wrong!");
            res.redirect("/games");
        } else {
            //redirect somewhere(show page)
+           req.flash("success", "Game Updated");
            res.redirect("/games/" + req.params.id);
        }
     });
@@ -85,6 +87,7 @@ router.delete("/:id", middleware.checkGameOwnership, function(req, res){
       if(err){
           res.redirect("/games");
       } else {
+          req.flash("success", "Game deleted");
           res.redirect("/games");
       }
    });

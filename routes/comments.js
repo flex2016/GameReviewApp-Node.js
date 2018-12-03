@@ -72,6 +72,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
       if(err){
           res.redirect("back");
       } else {
+          req.flash("success", "Comment Edited");
           res.redirect("/games/" + req.params.id );
       }
    });
@@ -84,7 +85,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
         if(err){
             res.redirect("back");
         } else {
-           req.flash("success", "Comment deleted");
+            req.flash("success", "Comment deleted");
             res.redirect("/games/" + req.params.id);
         }
     });
