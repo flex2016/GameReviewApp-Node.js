@@ -50,7 +50,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 // COMMENT EDIT ROUTE
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
     
-    Campground.findById(req.params.id, function(err, foundGame){
+    Game.findById(req.params.id, function(err, foundGame){
         if(err || !foundGame){
             req.flash("error", "No game found");
             return res.redirect("back");
