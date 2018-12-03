@@ -19,7 +19,7 @@ router.post("/register", function(req, res){
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             req.flash("error", err.message);
-            return res.redirect("/register");
+            return res.render("register", {"error": err.message});
         }
         passport.authenticate("local")(req, res, function(){
             req.flash("success", "Welcome to Top Games " + user.username);
@@ -38,7 +38,8 @@ router.post("/login", passport.authenticate("local",
     {
         successRedirect: "/games",
         failureRedirect: "/login",
-        failureFlash: true
+        failureFlash: true,
+        successFlash: 'Welcome Back to Top Games!'
     }), function(req, res){
 });
 
