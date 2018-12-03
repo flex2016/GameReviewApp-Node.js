@@ -22,6 +22,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
    //lookup game using ID
    Game.findById(req.params.id, function(err, game){
        if(err){
+           req.flash("error", "Something went wrong");
            console.log(err);
            res.redirect("/games");
        } else {
@@ -38,6 +39,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
                game.comments.push(comment);
                game.save();
                console.log(comment);
+               req.flash("success", "Successfully added comment");
                res.redirect('/games/' + game._id);
            }
         });
@@ -47,13 +49,21 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // COMMENT EDIT ROUTE
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
-   Comment.findById(req.params.comment_id, function(err, foundComment){
-      if(err){
-          res.redirect("back");
-      } else {
-        res.render("comments/edit", {game_id: req.params.id, comment: foundComment});
-      }
-   });
+    
+    Campground.findById(req.params.id, function(err, foundGame){
+        if(err || !foundGame){
+            req.flash("error", "No game found");
+            return res.redirect("back");
+        }
+        Comment.findById(req.params.comment_id, function(err, foundComment){
+            if(err){
+                req.flash("error", "No game found");
+                res.redirect("back");
+            } else {
+                res.render("comments/edit", {game_id: req.params.id, comment: foundComment});
+            }
+        });
+    });
 });
 
 // COMMENT UPDATE
@@ -71,11 +81,12 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
     //findByIdAndRemove
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
-       if(err){
-           res.redirect("back");
-       } else {
-           res.redirect("/games/" + req.params.id);
-       }
+        if(err){
+            res.redirect("back");
+        } else {
+           req.flash("success", "Comment deleted");
+            res.redirect("/games/" + req.params.id);
+        }
     });
 });
 

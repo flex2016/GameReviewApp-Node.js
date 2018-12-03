@@ -32,6 +32,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
             console.log(err);
         } else {
             //redirect back to games page
+            req.flash("success", "Successfully added a Game");  
             res.redirect("/games");
         }
     });
@@ -46,7 +47,9 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 router.get("/:id", function(req, res){
     //find the game with provided ID
     Game.findById(req.params.id).populate("comments").exec(function(err, foundGame){
-        if(err){
+        if(err || !foundGame){
+            req.flash("error", "Game not found");
+            res.redirect("back");
             console.log(err);
         } else {
             console.log(foundGame)
