@@ -1,15 +1,17 @@
 <% include ../partials/header %> 
 
-
-     <header class="jumbotron">
-         <div class="container">
-             <h1>Welcome To Top|Games!</h1>
-             <p>View our hand-picked games from all over the world</p>
-             <p>
+    <% if (currentUser && currentUser.isAdmin){ %>
+        <h1> Your'e Admin   </h1>
+    <% } %>
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome To Top|Games!</h1>
+            <p>View our hand-picked games from all over the world</p>
+            <p>
                 <a class="btn btn-primary btn-large" href="/games/new">Add New game</a>
-             </p>
-         </div>
-     </header>
+            </p>
+        </div>
+    </header>
      
      <div class="row text-center" style="display:flex; flex-wrap: wrap;">
         <% games.forEach(function(game){ %>
