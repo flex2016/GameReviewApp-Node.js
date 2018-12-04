@@ -49,7 +49,6 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // COMMENT EDIT ROUTE
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
-    
     Game.findById(req.params.id, function(err, foundGame){
         if(err || !foundGame){
             req.flash("error", "No game found");
@@ -57,7 +56,7 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, 
         }
         Comment.findById(req.params.comment_id, function(err, foundComment){
             if(err){
-                req.flash("error", "No game found");
+                req.flash("error", "No Comment found");
                 res.redirect("back");
             } else {
                 res.render("comments/edit", {game_id: req.params.id, comment: foundComment});
