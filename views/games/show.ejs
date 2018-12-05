@@ -17,7 +17,7 @@
                     <h4><a><%=game.name%></a></h4>
                     <p><%= game.description %></p>
                     <p>
-                        <em>Submitted By <%= game.author.username %>, <%= moment(game.createdAt).fromNow() %></em>
+                        <em>Submitted By <a href = "/users/<%=game.author.id %>"><%= game.author.username %></a>, <%= moment(game.createdAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && game.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                         <a class="btn btn-xs btn-warning" href="/games/<%= game._id %>/edit">Edit</a>

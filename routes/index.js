@@ -2,6 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var Game = require("../models/game");
 
 //root route
 router.get("/", function(req, res){
@@ -15,7 +16,15 @@ router.get("/register", function(req, res){
 
 //handle sign up logic
 router.post("/register", function(req, res){
-    var newUser = new User({username: req.body.username});
+    var newUser = new User(
+        {
+            username : req.body.username,
+            firstName: req.body.firstName,
+            lastName : req.body.lastName,
+            email    : req.body.email,
+            avatar   : req.body.avatar
+            
+        });
     if(req.body.adminCode === "codemastercodesecret"){
         newUser.isAdmin = true;
     }
@@ -56,5 +65,21 @@ router.get("/logout", function(req, res){
 });
 
 
+//user profile
+router.get("/users/:id", function(req, res){
+   User.findById(req.params.id, function(err, foundUser){
+       if(err){
+           req.flash("error", "Something went wrong.");
+           res.redirect("/");
+        }
+        Game.find().where('author.id').equals(foundUser._id).exec(function(err, games) {
+            if(err) {
+                req.flash("error", "Something went wrong.");
+                return res.redirect("/");
+            }
+       res.render("users/show", { user: foundUser, games: games});
+        })
+   }); 
+});
 
 module.exports = router;
