@@ -5,14 +5,30 @@ var middleware = require("../middleware");
 
 //INDEX - show all games
 router.get("/", function(req, res){
-    // Get all games from DB
-    Game.find({}, function(err, allGames){
-       if(err){
-           console.log(err);
-       } else {
-          res.render("games/index",{games:allGames, page: 'games'});
+    var noMatch = null;
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get all games from DB
+        Game.find({name: regex}, function(err, allGames){
+            if(err){
+                console.log(err);
+            } else {
+                if(allGames.length < 1) {
+                  noMatch = "No games match that query, please try again.";
+              }
+            res.render("games/index",{games:allGames, page: 'games',  noMatch: noMatch});
        }
     });
+    }else{
+        // Get all games from DB
+        Game.find({}, function(err, allGames){
+           if(err){
+               console.log(err);
+           } else {
+              res.render("games/index",{games:allGames, noMatch: noMatch});
+           }
+        });
+    }
 });
 
 //CREATE - add new game to DB
@@ -20,12 +36,13 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     // get data from form and add to games array
     var name = req.body.name;
     var image = req.body.image;
+    var price = req.body.price;
     var desc = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
     }
-    var newGame = {name: name, image: image, description: desc, author:author}
+    var newGame = {name: name, image: image, price: price, description: desc, author:author}
     // Create a new game and save to DB
     Game.create(newGame, function(err, newlyCreated){
         if(err){
@@ -93,6 +110,9 @@ router.delete("/:id", middleware.checkGameOwnership, function(req, res){
    });
 });
 
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;
 
