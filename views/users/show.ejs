@@ -7,9 +7,7 @@
 			<img src="<%= user.avatar %>" alt="user profile image">
 			<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
 		</div>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
-
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
+		<%= user.description %>
 	</div>
 	<div class="col-md-8">
 		<h3><%= user.username %>'s games:</h3>
@@ -19,6 +17,36 @@
 		<% }); %>
 		</ul>
 	</div>
+	<div id="map"></div>
 </div>
+
+<script>
+  function initMap() {
+    var lat = <%= user.lat %>;
+    var lng = <%= user.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= user.name %><br />
+      <%= user.location %></strong>
+      <p><%= user.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLOSgJ2Co2JElrGyk553-tRCrHlackuAs&callback=initMap"></script>
 
 <% include ../partials/footer %>

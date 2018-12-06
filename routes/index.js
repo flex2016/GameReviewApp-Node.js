@@ -6,6 +6,16 @@ var Game = require("../models/game");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
+var NodeGeocoder = require('node-geocoder');
+ 
+var options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: process.env.GEOCODER_API_KEY,
+  formatter: null
+};
+ 
+var geocoder = NodeGeocoder(options);
 
 //root route
 router.get("/", function(req, res){
@@ -19,13 +29,23 @@ router.get("/register", function(req, res){
 
 //handle sign up logic
 router.post("/register", function(req, res){
+    geocoder.geocode(req.body.location, function (err, data) {
+    if (err || !data.length) {
+      console.log(err);
+      req.flash('error', 'Invalid address');
+      return res.redirect('back');
+    };
     var newUser = new User(
         {
             username : req.body.username,
             firstName: req.body.firstName,
             lastName : req.body.lastName,
             email    : req.body.email,
-            avatar   : req.body.avatar
+            avatar   : req.body.avatar,
+            description   : req.body.description,
+            lat : data[0].latitude,
+            lng : data[0].longitude,
+            location : data[0].formattedAddress
             
         });
     if(req.body.adminCode === "codemastercodesecret"){
@@ -40,6 +60,7 @@ router.post("/register", function(req, res){
             req.flash("success", "Welcome to Top Games " + user.username);
             res.redirect("/games"); 
         });
+    });
     });
 });
 
