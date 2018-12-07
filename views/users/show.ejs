@@ -10,6 +10,7 @@
 		<%= user.description %>
 	</div>
 	<div class="col-md-8">
+	  <a href="/users/<%=user._id %>/edit">Edit Profile</a>
 		<h3><%= user.username %>'s games:</h3>
 		<ul>
 		<% games.forEach(function(game) { %>

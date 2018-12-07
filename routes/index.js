@@ -6,6 +6,7 @@ var Game = require("../models/game");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
+var middleware = require("../middleware");
 var NodeGeocoder = require('node-geocoder');
  
 var options = {
@@ -222,6 +223,39 @@ router.get("/users/:id", function(req, res){
        res.render("users/show", { user: foundUser, games: games});
         })
    }); 
+});
+
+//user edit 
+router.get("/users/:id/edit",middleware.isLoggedIn, function(req, res){
+    User.findById(req.params.id, function(err, foundUser){
+       if(err){
+           req.flash("error", "Something went wrong.");
+           return res.redirect("/");
+        }
+        res.render("users/edit", {user: foundUser});
+    }); 
+});
+
+//handle update user
+router.put("/users/:id",middleware.isLoggedIn, function(req, res){
+    geocoder.geocode(req.body.location, function (err, data) {
+    if (err || !data.length) {
+      console.log(err);
+      req.flash('error', 'Invalid address');
+      return res.redirect('back');
+    }
+    req.body.user.lat = data[0].latitude;
+    req.body.user.lng = data[0].longitude;
+    req.body.user.location = data[0].formattedAddress;
+    User.findByIdAndUpdate(req.params.id , req.body.user, function(err, updatedUser){
+      if(err){
+          res.redirect("back");
+      } else {
+          req.flash("success", "User Updated");
+          res.redirect("/users/" + req.params.id );
+      }
+   });
+    });
 });
 
 module.exports = router;

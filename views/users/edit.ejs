@@ -1,0 +1,63 @@
+<% include ../partials/header %>
+<div class="row">
+    <h1 style="text-align: center">Update</h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/users/<%= user._id %>?_method=PUT" method="POST">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" name="user[username]" value="<%= user.username %>">
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input class="form-control" type="text" name="user[firstName]" value="<%= user.firstName %>">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input class="form-control" type="text" name="user[lastName]" value="<%= user.lastName %>">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" type="email" name="user[email]" value="<%= user.email %>">
+            </div>
+            <div class="form-group">
+                <label for="avatar">Avatar</label>
+                <input class="form-control" type="text" name="user[avatar]" value="<%= user.avatar %>">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input class="form-control" type="text" name="user[description]" value="<%= user.description %>">
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input class="form-control" type="text" name="location" id="location" value="<%= user.location %>">
+            </div>
+            <div class="form-group">
+                <label for="adminCode">Secret Admin Access Code</label>
+                <input class="form-control" type="text" name="user[adminCode]" value="<%= user.adminCode %>">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Update!</button>
+            </div>
+        </form>
+        <a href="/games">Go Back</a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<% include ../partials/footer %>
