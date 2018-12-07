@@ -226,7 +226,7 @@ router.get("/users/:id", function(req, res){
 });
 
 //user edit 
-router.get("/users/:id/edit",middleware.isLoggedIn, function(req, res){
+router.get("/users/:id/edit",middleware.isLoggedIn,middleware.checkUser, function(req, res){
     User.findById(req.params.id, function(err, foundUser){
        if(err){
            req.flash("error", "Something went wrong.");
@@ -237,7 +237,7 @@ router.get("/users/:id/edit",middleware.isLoggedIn, function(req, res){
 });
 
 //handle update user
-router.put("/users/:id",middleware.isLoggedIn, function(req, res){
+router.put("/users/:id",middleware.isLoggedIn, middleware.checkUser, function(req, res){
     geocoder.geocode(req.body.location, function (err, data) {
     if (err || !data.length) {
       console.log(err);
