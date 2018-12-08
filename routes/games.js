@@ -5,28 +5,47 @@ var middleware = require("../middleware");
 
 //INDEX - show all games
 router.get("/", function(req, res){
+    var perPage = 4;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
     var noMatch = null;
     if(req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        // Get all games from DB
-        Game.find({name: regex}, function(err, allGames){
-            if(err){
-                console.log(err);
-            } else {
-                if(allGames.length < 1) {
-                  noMatch = "No games match that query, please try again.";
-              }
-            res.render("games/index",{games:allGames, page: 'games',  noMatch: noMatch});
-       }
-    });
-    }else{
-        // Get all games from DB
-        Game.find({}, function(err, allGames){
-           if(err){
-               console.log(err);
-           } else {
-              res.render("games/index",{games:allGames, noMatch: noMatch});
-           }
+        Game.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allGames) {
+            Game.count({name: regex}).exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                    res.redirect("back");
+                } else {
+                    if(allGames.length < 1) {
+                        noMatch = "No games match that query, please try again.";
+                    }
+                    res.render("games/index", {
+                        games: allGames,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        noMatch: noMatch,
+                        search: req.query.search
+                    });
+                }
+            });
+        });
+    } else {
+        // get all games from DB
+        Game.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allGames) {
+            Game.count().exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("games/index", {
+                        games: allGames,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        noMatch: noMatch,
+                        search: false
+                    });
+                }
+            });
         });
     }
 });
