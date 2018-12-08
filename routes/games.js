@@ -5,7 +5,7 @@ var middleware = require("../middleware");
 
 //INDEX - show all games
 router.get("/", function(req, res){
-    var perPage = 4;
+    var perPage = 8;
     var pageQuery = parseInt(req.query.page);
     var pageNumber = pageQuery ? pageQuery : 1;
     var noMatch = null;
