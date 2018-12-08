@@ -2,6 +2,29 @@ var express = require("express");
 var router  = express.Router();
 var Game = require("../models/game");
 var middleware = require("../middleware");
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'codemasterflex', 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+
 
 //INDEX - show all games
 router.get("/", function(req, res){
@@ -51,26 +74,22 @@ router.get("/", function(req, res){
 });
 
 //CREATE - add new game to DB
-router.post("/", middleware.isLoggedIn, function(req, res){
-    // get data from form and add to games array
-    var name = req.body.name;
-    var image = req.body.image;
-    var price = req.body.price;
-    var desc = req.body.description;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    }
-    var newGame = {name: name, image: image, price: price, description: desc, author:author}
-    // Create a new game and save to DB
-    Game.create(newGame, function(err, newlyCreated){
-        if(err){
-            console.log(err);
-        } else {
-            //redirect back to games page
-            req.flash("success", "Successfully added a Game");  
-            res.redirect("/games");
+router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res){
+    cloudinary.uploader.upload(req.file.path, function(result) {
+        // add cloudinary url for the image to the game object under image property
+        req.body.game.image = result.secure_url;
+        // add author to game
+        req.body.game.author = {
+            id: req.user._id,
+            username: req.user.username
         }
+        Game.create(req.body.game, function(err, newGame) {
+        if (err) {
+            req.flash('error', err.message);
+            return res.redirect('back');
+        }
+        res.redirect('/games/');
+        });
     });
 });
 
