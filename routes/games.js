@@ -147,6 +147,7 @@ router.put("/:id", upload.single('image'), function(req, res){
               }
             }
             game.name = req.body.name;
+            game.price = req.body.price;
             game.description = req.body.description;
             game.save();
             req.flash("success","Successfully Updated!");
