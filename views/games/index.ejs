@@ -34,6 +34,15 @@
                    <img src="<%= game.image %>">
                    <div class="caption">
                        <h4><%= game.name %></h4>
+                    <% if (game.rating === 0) { %>
+                    <em>No reviews yet.</em>
+                    <% } else { %>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star <% if (game.rating > 1.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (game.rating > 2.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (game.rating > 3.5) { %> checked <% } %>"></span>
+                    <span class="fa fa-star <% if (game.rating > 4.5) { %> checked <% } %>"></span>
+                    <% } %>
                    </div>
                    <p>
                        <a href="/games/<%= game._id %>" class="btn btn-primary">More Info</a>

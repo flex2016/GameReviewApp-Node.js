@@ -1,6 +1,8 @@
 var express = require("express");
 var router  = express.Router();
 var Game = require("../models/game");
+var Comment = require("../models/comment");
+var Review = require("../models/review");
 var middleware = require("../middleware");
 var request = require("request");
 var multer = require('multer');
@@ -108,7 +110,10 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 // SHOW - shows more info about one game
 router.get("/:id", function(req, res){
     //find the game with provided ID
-    Game.findById(req.params.id).populate("comments").exec(function(err, foundGame){
+    Game.findById(req.params.id).populate("comments").populate({
+            path: "reviews",
+            options: {sort: {createdAt: -1}}
+        }).exec(function(err, foundGame){
         if(err || !foundGame){
             req.flash("error", "Game not found");
             res.redirect("back");
@@ -130,6 +135,7 @@ router.get("/:id/edit", middleware.checkGameOwnership, function(req, res){
 
 //Update Game route
 router.put("/:id", upload.single('image'), function(req, res){
+    delete req.body.campground.rating;
     Game.findById(req.params.id, async function(err, game){
         if(err){
             req.flash("error", err.message);
@@ -162,18 +168,32 @@ router.delete("/:id", middleware.checkGameOwnership, function(req, res){
         if(err){
             req.flash("error", err.message);
             res.redirect("/games");
-        }
-        try {
-            await cloudinary.v2.uploader.destroy(game.imageId);
-            game.remove();
-            req.flash('success', 'Game deleted successfully!');
-            res.redirect('/games');
-        }
-        catch(err) {
-            if(err) {
-                req.flash("error", err.message);
-                res.redirect("back");
-            }    
+        }else{
+            Comment.remove({"_id": {$in: game.comments}}, function (err) {
+                if (err) {
+                    console.log(err);
+                    return res.redirect("/games");
+                }
+                // deletes all reviews associated with the game
+                Review.remove({"_id": {$in: game.reviews}}, async function (err) { // you need to add async to functions inside which you use await
+                    if (err) {
+                        console.log(err);
+                        return res.redirect("/games");
+                }
+                try {
+                    await cloudinary.v2.uploader.destroy(game.imageId);
+                    game.remove();
+                    req.flash('success', 'Game deleted successfully!');
+                    res.redirect('/games');
+                }
+                catch(err) {
+                    if(err) {
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    }   
+                }
+            });
+        });    
       }
    });
 });

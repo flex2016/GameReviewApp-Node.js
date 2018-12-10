@@ -15,6 +15,7 @@ var express     = require("express"),
     
 //requring routes
 var commentRoutes    = require("./routes/comments"),
+    reviewRoutes     = require("./routes/reviews"),
     gameRoutes       = require("./routes/games"),
     indexRoutes      = require("./routes/index")
     
@@ -48,6 +49,7 @@ app.use(function(req, res, next){
 app.use("/", indexRoutes);
 app.use("/games", gameRoutes);
 app.use("/games/:id/comments", commentRoutes);
+app.use("/games/:id/reviews", reviewRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("The Game Review Server Has Started!");
