@@ -19,7 +19,8 @@ var commentRoutes    = require("./routes/comments"),
     gameRoutes       = require("./routes/games"),
     indexRoutes      = require("./routes/index")
     
-mongoose.connect("mongodb://localhost/game_review");
+//mongoose.connect("mongodb://localhost/game_review");
+mongoose.connect(process.env.MONGO_DB);
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -29,7 +30,7 @@ app.locals.moment = require('moment');
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "This is a serious secret key",
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false
 }));
