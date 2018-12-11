@@ -19,8 +19,8 @@ var commentRoutes    = require("./routes/comments"),
     gameRoutes       = require("./routes/games"),
     indexRoutes      = require("./routes/index")
     
-//mongoose.connect("mongodb://localhost/game_review");
-mongoose.connect(process.env.DATABASE_URL);
+var url = process.env.DATABASE_URL || "mongodb://localhost/game_review";
+mongoose.connect(url);
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
