@@ -4,7 +4,8 @@
   "description": "Welcome To PC Games Review App. Where you can review share and commen ton your favorite games with your friends.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
