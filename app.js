@@ -17,7 +17,8 @@ var express     = require("express"),
 var commentRoutes    = require("./routes/comments"),
     reviewRoutes     = require("./routes/reviews"),
     gameRoutes       = require("./routes/games"),
-    indexRoutes      = require("./routes/index")
+    indexRoutes      = require("./routes/index"),
+    userRoutes      = require("./routes/users")
     
 var url = process.env.DATABASE_URL || "mongodb://localhost/game_review";
 mongoose.connect(url);
@@ -48,6 +49,7 @@ app.use(function(req, res, next){
 });
 
 app.use("/", indexRoutes);
+app.use("/users", userRoutes);
 app.use("/games", gameRoutes);
 app.use("/games/:id/comments", commentRoutes);
 app.use("/games/:id/reviews", reviewRoutes);
