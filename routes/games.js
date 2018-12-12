@@ -110,7 +110,10 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 // SHOW - shows more info about one game
 router.get("/:id", function(req, res){
     //find the game with provided ID
-    Game.findById(req.params.id).populate("comments").populate({
+    Game.findById(req.params.id).populate({
+            path: "comments",
+            options: {sort: {createdAt: -1}}
+        }).populate({
             path: "reviews",
             options: {sort: {createdAt: -1}}
         }).exec(function(err, foundGame){
