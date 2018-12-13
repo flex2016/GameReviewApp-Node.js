@@ -8,6 +8,7 @@ var nodemailer = require("nodemailer");
 var crypto = require("crypto");
 var middleware = require("../middleware");
 var NodeGeocoder = require('node-geocoder');
+var Notification = require("../models/notification");
  
 var options = {
   provider: 'google',
@@ -207,7 +208,32 @@ router.post('/reset/:token', function(req, res) {
   });
 });
 
+// view all notifications
+router.get('/notifications', middleware.isLoggedIn, async function(req, res) {
+  try {
+    let user = await User.findById(req.user._id).populate({
+      path: 'notifications',
+      options: { sort: { "_id": -1 } }
+    }).exec();
+    let allNotifications = user.notifications;
+    res.render('notifications/index', { allNotifications });
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
+});
 
-
+// handle notification
+router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
+  try {
+    let notification = await Notification.findById(req.params.id);
+    notification.isRead = true;
+    notification.save();
+    res.redirect(`/games/${notification.gameId}`);
+  } catch(err) {
+    req.flash('error', err.message);
+    res.redirect('back');
+  }
+});
 
 module.exports = router;

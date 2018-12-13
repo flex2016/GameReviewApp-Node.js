@@ -3,6 +3,8 @@ var router  = express.Router();
 var Game = require("../models/game");
 var Comment = require("../models/comment");
 var Review = require("../models/review");
+var User = require("../models/user");
+var Notification = require("../models/notification");
 var middleware = require("../middleware");
 var request = require("request");
 var multer = require('multer');
@@ -77,8 +79,8 @@ router.get("/", function(req, res){
 });
 
 //CREATE - add new game to DB
-router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res) {
-    cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+router.post("/", middleware.isLoggedIn, upload.single('image'),  function(req, res) {
+    cloudinary.v2.uploader.upload(req.file.path, async function(err, result) {
       if(err) {
         req.flash('error', err.message);
         return res.redirect('back');
@@ -90,17 +92,31 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
       // add author to game
       req.body.game.author = {
         id: req.user._id,
-        username: req.user.username
+        username: req.user.username,
+        avatar:req.user.avatar
       }
-      Game.create(req.body.game, function(err, newGame) {
-        if (err) {
-          req.flash('error', err.message);
-          return res.redirect('back');
-        }
-        res.redirect('/games/' + newGame.id);
+      try{
+
+        
+      let game = await Game.create(req.body.game);
+      let user = await User.findById(req.user._id).populate('followers').exec();
+        let newNotification = {
+        username: req.user.username,
+        gameId: game.id
+      }
+      for(const follower of user.followers) {
+        let notification = await Notification.create(newNotification);
+        follower.notifications.push(notification);
+        follower.save();
+      }
+        res.redirect('/games/' + game.id);
+      }catch(err) {
+      req.flash('error', err.message);
+      res.redirect('back');
+    }
       });
-    });
 });
+
 
 //NEW - show form to create new game
 router.get("/new", middleware.isLoggedIn, function(req, res){

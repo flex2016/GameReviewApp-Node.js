@@ -4,9 +4,8 @@
         <div class="col-md-3">
             <p class="lead">Top|Games</p>
             <div class="list-group">
-                <li class="list-group-item active">Info 1</li>
-                <li class="list-group-item">Info 2</li>
-                <li class="list-group-item">Info 3</li>
+                <li class="list-group-item"><a href="/users/follow/<%= game.author.id %>">Follow <%= game.author.username %></a></li>
+                <li class="list-group-item"><img class = "thumbnail" src="<%= game.author.avatar %>" alt="user profile image"</img></li>
             </div>
         </div>
         <div class="col-md-9">

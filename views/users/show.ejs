@@ -7,6 +7,7 @@
 			<img src="<%= user.avatar %>" alt="user profile image">
 			<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
 		</div>
+		<a href="/users/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
 		<%= user.description %>
 	</div>
 	<div class="col-md-8">

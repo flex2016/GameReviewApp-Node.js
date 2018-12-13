@@ -23,3 +23,7 @@
 .checked {
     color: orange;
 }
+
+.list-group-item .thumbnail {
+    width: 100%;
+}
