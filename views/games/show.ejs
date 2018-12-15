@@ -96,11 +96,11 @@
                 <!--Collapse Add a comment form START-->
                 <div class="collapse" id="collapseComment">
                     <div class="well" style="border-left: 5px solid #00C851;">
-                        <% if(!currentUser) { %>
+                        <% if(!currentUser ) { %>
                         <!--If the user is not logged in, direct him to the login page-->
                         <h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h5>
                         <% } %>
-                        <% if(currentUser) { %>
+                        <% if(currentUser && currentUser.isAdmin) { %>
                       <!--If the user is logged in, show the new comment form-->
                         <h4>Write your comment <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span></h4>
                         <form id="add-comment-form" action="/games/<%= game._id %>/comments" method="POST">
@@ -140,7 +140,8 @@
                               </strong>
                         
                               <!--Show when the comment was made-->
-                              <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                              <span class="pull-right"><%= comment.updatedAt.toDateString() %></span>
+                              
                         
                               <!--Printing the comment-->
                               <p><%= comment.text %></p>

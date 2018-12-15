@@ -89,9 +89,12 @@ router.put("/:id",middleware.isLoggedIn, middleware.checkUser, function(req, res
 // follow user
 router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
   try {
+    let currentUser = await User.findById(req.user._id);
     let user = await User.findById(req.params.id);
     user.followers.push(req.user._id);
+    currentUser.followed.push(req.params.id);
     user.save();
+    currentUser.save();
     req.flash('success', 'Successfully followed ' + user.username + '!');
     res.redirect('/users/' + req.params.id);
   } catch(err) {

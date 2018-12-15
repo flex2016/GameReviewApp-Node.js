@@ -12,7 +12,7 @@
             </p>
         </div>
     </header>
-    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+    <div class="row text-center flex-wrap" >
         <div class="col-md-12">
             <p>
                 <form action="/games" method="GET" class="form-inline">
@@ -27,11 +27,12 @@
             <% } %>
         </div>
     </div>    
-     <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+     <div class="row text-center flex-wrap" >
         <% games.forEach(function(game){ %>
             <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">
+                <div class="thumbnail games">
                    <img src="<%= game.image %>">
+                   <a href="/games/<%= game._id %>">Explore</a>
                    <div class="caption">
                        <h4><%= game.name %></h4>
                     <% if (game.rating === 0) { %>
@@ -44,9 +45,7 @@
                     <span class="fa fa-star <% if (game.rating > 4.5) { %> checked <% } %>"></span>
                     <% } %>
                    </div>
-                   <p>
-                       <a href="/games/<%= game._id %>" class="btn btn-primary">More Info</a>
-                   </p>
+                  
                 </div>
             </div>
         <% }); %>

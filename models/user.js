@@ -26,6 +26,12 @@ var UserSchema = new mongoose.Schema({
     		type: mongoose.Schema.Types.ObjectId,
     		ref: 'User'
     	}
+    ],
+    followed: [
+    	{
+    		type: mongoose.Schema.Types.ObjectId,
+    		ref: 'User'
+    	}
     ]
 });
 

@@ -1,14 +1,69 @@
-.thumbnail img {
-    width: 100%;
+
+/*   Layout   */
+.flex-wrap{
+    display:flex;
+    flex-wrap:wrap;
 }
 
-.thumbnail {
-    padding: 0;
+
+/*Thumbnail*/
+.thumbnail img {
+    width: 100%;
+    
+}
+
+.thumbnail{
+    padding:0;
 }
 
 .thumbnail .caption-full {
     padding: 9px;
 }
+
+/*Games*/
+
+.games{
+    position: relative;
+    overflow: hidden;
+    margin: 10px 1%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.85);
+    
+}
+.games *{
+    box-sizing: border-box;
+    transition: all .35s ease-in-out;
+}
+.games:hover img{
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+.games a{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 10%;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    width: 8rem;
+    height: 30px;
+    line-height: 30px;
+    background: #b1d6e2;
+    text-decoration: none;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 300ms 0ms cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+.games a:hover{
+    background: #ffba00;
+}
+.games:hover a{
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 300ms 100ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+
+
 
 #delete-form {
     display: inline;
@@ -21,7 +76,7 @@
 }
 
 .checked {
-    color: orange;
+    color: #ffba00;
 }
 
 .list-group-item .thumbnail {
