@@ -20,22 +20,22 @@
               <span class="icon-bar"></span>
             </button>
 
-                <a class="navbar-brand" href="/">Top Games</a>
+                <a class="navbar-brand" href="/"><i class="fa fa-trophy" aria-hidden="true"></i> Top|Games</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
-                <li class="<%= typeof page !== 'undefined' && page === 'games' ? 'active' : '' %>"><a href="/games">Home</a></li>
+                <li class="<%= typeof page !== 'undefined' && page === 'games' ? 'active' : '' %>"><a href="/games"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                   <% if(!currentUser){ %>
                       <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login">Login</a></li>
-                      <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/register">Sign Up</a></li>
+                      <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/register"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign Up</a></li>
                   <% } else { %>
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notifications <span class="badge"><%= notifications.length %></span></a>
                           <ul class="dropdown-menu">
                             <li>
-                                <a href="/notifications">View past notifications</a>
+                                <a href="/notifications"><i class="fa fa-bell" aria-hidden="true"></i> View past notifications</a>
                             </li>
                             <% notifications.forEach(function(notification) { %>                          
                                 <li>
@@ -46,8 +46,8 @@
                             <% }); %>
                           </ul>
                         </li>
-                      <li><a href="#">Signed In As <%= currentUser.username %></a></li>
-                      <li><a href="/logout">Logout</a></li>
+                      <li><a href="#">Signed In As <i class="fa fa-user" aria-hidden="true"></i> <%= currentUser.username %></a></li>
+                      <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                   <% } %>
             </ul>
             </div>
