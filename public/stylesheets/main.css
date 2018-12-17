@@ -5,6 +5,12 @@
     flex-wrap:wrap;
 }
 
+a:hover{
+    text-decoration: none;
+}
+
+/*Jumbotron*/
+
 .jumbotron{
     background-position: top;
     background-size: 100%;
@@ -16,6 +22,11 @@
     color: black;
 }
 
+.form-inline .form-control {
+    display: inline-block;
+    width: 300px;
+    vertical-align: middle;
+}
 /*Thumbnail*/
 .thumbnail img {
     width: 100%;
@@ -29,6 +40,7 @@
 .thumbnail .caption-full {
     padding: 9px;
 }
+
 
 /*Games*/
 

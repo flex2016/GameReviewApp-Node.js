@@ -12,13 +12,13 @@
             </p>
         </div>
     </header>
-    <div class="row text-center flex-wrap" >
+    <div class="row text-center">
         <div class="col-md-12">
             <p>
                 <form action="/games" method="GET" class="form-inline">
             		<div class="form-group">
             			<input type="text" name="search" placeholder="Game search..." class="form-control">
-            			<input type="submit" value="Search" class="btn btn-default">
+            			<input type="submit" value="Search" class="btn btn-primary">
             		</div>
             	</form>
             </p>
@@ -26,7 +26,8 @@
             <h3><%= noMatch %></h3>
             <% } %>
         </div>
-    </div>    
+    </div>  
+       
      <div class="row text-center flex-wrap" >
         <% games.forEach(function(game){ %>
             <div class="col-md-3 col-sm-6">
