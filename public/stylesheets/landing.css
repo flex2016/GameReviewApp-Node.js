@@ -34,6 +34,7 @@ body {
 
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   background-color: #1E90FF !important;
+  animation: view-btn 3s 1;
 }
 
 
@@ -83,12 +84,29 @@ body {
   animation-delay: 40s; 
 }
 
+@keyframes view-btn { 
+  0% {
+    opacity: 0;
+    
+  }
+  30% {
+    opacity: 0;
+    
+  }
+  85% {
+    opacity: 1;
+    
+  }
+}
+
+
 @keyframes text { 
   0% { 
     color:black;
     margin-bottom: -40px;
   }
   30% {
+    font-size: 100px;
     letter-spacing: 25px;
     margin-bottom: -40px;
   }
