@@ -1,17 +1,41 @@
 body {
   background-color: #000;
+  font-family: sans-serif;
 }
 
 #landing-header {
   z-index: 1;
-  position: relative;
+  position: absolute;
   text-align: center;
-  padding-top: 40vh;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }
 
-#landing-header h1 {
-  color: #fff;
+#landing-header span {
+  text-transform: uppercase;
+  display: block;
+  
 }
+
+.welcome{
+  color: #fff;
+  font-size: 60px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  position:relative;
+  animation: text 3s 1;
+}
+
+.view-btn:hover{
+  color: #000000;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: #1E90FF !important;
+}
+
 
 .slideshow { 
   position: fixed;
@@ -57,6 +81,21 @@ body {
 .slideshow li:nth-child(5) { 
   background-image: url(/img/video.jpg);
   animation-delay: 40s; 
+}
+
+@keyframes text { 
+  0% { 
+    color:black;
+    margin-bottom: -40px;
+  }
+  30% {
+    letter-spacing: 25px;
+    margin-bottom: -40px;
+  }
+  85% {
+    letter-spacing: 0px;
+    margin-bottom: 40px;
+  }
 }
 
 
