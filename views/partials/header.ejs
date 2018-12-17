@@ -46,7 +46,7 @@
                             <% }); %>
                           </ul>
                         </li>
-                      <li><a href="#">Signed In As <i class="fa fa-user" aria-hidden="true"></i> <%= currentUser.username %></a></li>
+                      <li><a href="/users/<%=currentUser._id %>">Signed In As <i class="fa fa-user" aria-hidden="true"></i> <%= currentUser.username %></a></li>
                       <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
                   <% } %>
             </ul>
