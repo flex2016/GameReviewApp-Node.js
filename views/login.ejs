@@ -1,8 +1,8 @@
 <% include ./partials/header %> 
 
-<div class="row">
-    <h1 style="text-align: center">Login</h1>
-    <div style="width: 30%; margin: 25px auto;">
+<div class="row form">
+    <h1>Login</h1>
+    <div class="login-form">
         <form action="/login" method="post">
             <div class="form-group">
                 <input class="form-control" type="text" name="username" placeholder="username">
@@ -14,8 +14,9 @@
                 <button class="btn btn-lg btn-primary btn-block">Login</button>
             </div>
         </form>
-        <a href="/games"><button class="btn btn-md btn-primary "><i class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</button></a>
-        <a href="/forgot"><button class="btn btn-md btn-primary ">Forgot Password?</button></a>
+    </div>
+    <div class="login-form-btn">
+        <a href="/forgot"><button class="btn btn-md btn-primary ">Forgot Password ?</button></a>
     </div>
 </div>
 

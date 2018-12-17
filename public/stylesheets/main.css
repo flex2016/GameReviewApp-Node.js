@@ -9,6 +9,29 @@ a:hover{
     text-decoration: none;
 }
 
+
+
+/*form  login, signup*/
+
+.form h1{
+    text-align: center;
+}
+
+.login-form, .register-form{
+    width: 50%; 
+    margin: 25px auto;
+}
+
+
+.login-form-btn{
+    display: flex;
+    justify-content:center;
+    width: 40%; 
+    margin: 25px auto;
+}
+
+
+
 /*Jumbotron*/
 
 .jumbotron{
