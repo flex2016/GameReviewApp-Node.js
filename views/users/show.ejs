@@ -1,28 +1,83 @@
 <% include ../partials/header %>
 
 <div class="row">
-	<div class="col-md-4">
-			<h1><%= user.firstName + " " + user.lastName %></h1>
-		<div class="thumbnail">
-			<img src="<%= user.avatar %>" alt="user profile image">
-			<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+  
+  <div class="col-md-4">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+					<img src="<%= user.avatar %>" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						<%= user.firstName + " " + user.lastName %>
+					</div>
+					<div class="profile-usertitle-job">
+						<%= user.description %>
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class="profile-userbuttons">
+					<a href="/users/follow/<%= user.id %>">
+					<button type="button" class="btn btn-success btn-sm">Follow</button></a>
+					<button type="button" class="btn btn-danger btn-sm">Message</button>
+					<% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                <a class="btn btn-xs btn-warning" href="/users/<%=user._id %>/edit">Edit Profile</a>
+          <% }%>
+				</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li class="active">
+							<a href="#">
+							<i class="glyphicon glyphicon-home"></i>
+							Overview </a>
+						</li>
+						<li>
+							<a href="#">
+							<i class="glyphicon glyphicon-user"></i>
+							Account Settings </a>
+						</li>
+						<li>
+							<a href="#" target="_blank">
+							<i class="glyphicon glyphicon-ok"></i>
+							Tasks </a>
+						</li>
+						<li>
+							<a href="#">
+							<i class="glyphicon glyphicon-flag"></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+			<div id="map"></div>
 		</div>
-		<a href="/users/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
-		<%= user.description %>
-	</div>
-	<div class="col-md-8">
-	  <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-                        <a class="btn btn-xs btn-warning" href="/users/<%=user._id %>/edit">Edit Profile</a>
-                    <% }%>
-		<h3><%= user.username %>'s games:</h3>
-		<ul>
-		<% games.forEach(function(game) { %>
-			<li><a href="/games/<%= game.id %>"><%= game.name %></a></li>
-		<% }); %>
-		</ul>
-	</div>
-	<div id="map"></div>
+		<div class="col-md-8">
+            <div class="profile-content">
+      			    <h3><%= user.username %>'s games:</h3>
+            		<ul class="nav">
+            		<% games.forEach(function(game) { %>
+            			<li><a href="/games/<%= game.id %>"><%= game.name %></a></li>
+            		<% }); %>
+            		</ul>
+            </div>
+            
+		</div>
+  
+  
+
 </div>
+
+
+
+
+
 
 <script>
   function initMap() {
