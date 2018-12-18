@@ -1,15 +1,17 @@
 <% include ../partials/header %> 
 
-<h1>Notifications</h1>
 
-<ul>
-	<% allNotifications.forEach(function(notification) { %>
-	<li>
-		<a href="/games/<%= notification.gameId %>">
-			<%= notification.username %> created a new game %>
-		</a>
-	</li>
-	<% }); %>
-</ul>
+	<div class="notification-content">
+		<h1>Notifications</h1>
+		<ul class="notifications">
+			<% allNotifications.forEach(function(notification) { %>
+			<li>
+				<a href="/games/<%= notification.gameId %>">
+					<%= notification.username %> created a new game %>
+				</a>
+			</li>
+			<% }); %>
+		</ul>
+	</div>
 
 <% include ../partials/footer %> 
