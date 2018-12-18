@@ -60,10 +60,13 @@
 		</div>
 		<div class="col-md-8">
             <div class="profile-content">
-      			    <h3><%= user.username %>'s games:</h3>
-            		<ul class="nav">
+      			    
+            		<ul class="nav profile-games">
+            		<h3><%= user.username %>'s games:</h3>
             		<% games.forEach(function(game) { %>
-            			<li><a href="/games/<%= game.id %>"><%= game.name %></a></li>
+            			<li>
+            			  
+            			  <a href="/games/<%= game.id %>"><i class="fa fa-gamepad" aria-hidden="true"></i> <%= game.name %></a></li>
             		<% }); %>
             		</ul>
             </div>

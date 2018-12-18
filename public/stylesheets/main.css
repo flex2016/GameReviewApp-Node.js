@@ -152,12 +152,34 @@ a:hover{
 /* Profile Content */
 .profile-content {
   padding: 20px;
-  background: #fff;
+
   min-height: 460px;
+  box-shadow: -0px 0px 47px -14px rgba(0,0,0,0.75);
+  background-position: center;
+  background-image: linear-gradient(61deg, rgba(255, 255, 255, 0.9), 50%, rgba(238, 238, 238, 0.5), 100%, transparent 90%), 
+      url("https://images.unsplash.com/photo-1486401899868-0e435ed85128?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjE3MzYxfQ&auto=format&fit=crop&w=1950&q=80");
+
 }
 
 .profile-content h3{
   text-transform: uppercase;
+  
+}
+.profile-games a{
+  color: black;
+  
+}
+
+.profile-games{
+  display: block;
+  width: 90%;
+  margin-top: 25px;
+  padding: 10px 40px;
+  font-size: 18px;
+  text-transform: uppercase;
+  box-shadow: -0px 0px 47px -14px rgba(0,0,0,0.75);
+  
+  
 }
 
 
@@ -229,6 +251,7 @@ a:hover{
 #map {
     height: 400px;
     width: 100%;
+    box-shadow: -0px 0px 47px -14px rgba(0,0,0,0.75);
 }
 
 .checked {
