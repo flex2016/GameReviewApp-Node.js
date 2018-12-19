@@ -173,8 +173,9 @@ a:hover{
 .profile-games {
   display: block;
   width: 90%;
-  margin-top: 25px;
-  padding: 10px 40px;
+  margin-top: 6px;
+  padding: 0px 40px;
+  padding-bottom: 10px;
   font-size: 18px;
   text-transform: uppercase;
   box-shadow: -0px 0px 47px -14px rgba(0,0,0,0.75);
@@ -192,7 +193,9 @@ a:hover{
   padding: 10px 40px;
   list-style: none;
 }
-
+.profile-games>li>a {
+  margin-top: 50px;
+}
 
 
 
