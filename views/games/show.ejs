@@ -127,7 +127,7 @@
                         <!--If the user is not logged in, direct him to the login page-->
                         <h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h5>
                         <% } %>
-                        <% if(currentUser && currentUser.isAdmin) { %>
+                        <% if(currentUser || currentUser && currentUser.isAdmin) { %>
                       <!--If the user is logged in, show the new comment form-->
                         <h4>Write your comment <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span></h4>
                         <form id="add-comment-form" action="/games/<%= game._id %>/comments" method="POST">
